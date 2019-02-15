@@ -5,7 +5,11 @@ const { NAME, VERSION } = process.env
 const successStatusCodes = [200, 201, 202, 203, 205, 206, 207, 208, 210, 226]
 
 export async function fetchData(method, path, config = {}) {
-  const { body, token, url } = config
+  const {
+    body,
+    token,
+    url
+  } = config
 
   const init = {
     credentials: 'include',
