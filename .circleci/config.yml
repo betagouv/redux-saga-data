@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:latest
-    working_directory: ~/with-query-router-ci
+    working_directory: ~/build-ci
     steps:
       - checkout
       # https://circleci.com/docs/2.0/yarn/
@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Running Tests
           command: |
-            yarn test:unit
+            yarn test
 
 workflows:
   version: 2

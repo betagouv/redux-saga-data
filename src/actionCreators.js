@@ -38,9 +38,9 @@ export const resetData = () => ({
   type: RESET_DATA,
 })
 
-export const successData = (method, path, data, config = {}) => ({
+export const successData = (method, path, dataOrDatum, config = {}) => ({
   config,
-  data,
+  dataOrDatum,
   method,
   path,
   type: `SUCCESS_DATA_${method.toUpperCase()}_${path.toUpperCase()}${

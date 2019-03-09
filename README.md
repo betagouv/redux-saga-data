@@ -1,9 +1,6 @@
 # redux-request-data
 
-** EN CONSTRUCTION **
-Ce code est du code externalisé du https://github.com/betagouv/pass-culture-shared qui concentre un nombre d'utilités React Redux
-utilisé par les applications front du pass culture.
-Tant que les tests fonctionnels ne sont pas écrits, cette lib ne peut être considérée en production.
+A lib for fetching normalized data in a redux store through sagas
 
 ## Basic Usage
 
@@ -16,6 +13,7 @@ import {
   createStore
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { all } from 'redux-saga/effects'
 import { createData, watchDataActions } from 'redux-saga-data'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -24,18 +22,18 @@ const storeEnhancer = applyMiddleware(sagaMiddleware)
 function* rootSaga() {
   yield all([
     watchDataActions({
-      url: <your api url like "https://myfoo.com">,
+      url: 'http://foo.com',
     }),
   ])
 }
 
-sagaMiddleware.run(rootSaga)
-
 const rootReducer = combineReducers({
-  data: createData({ foos: [] }),
+  data: createData({ users: [] }),
 })
 
 const store = createStore(rootReducer, storeEnhancer)
+
+sagaMiddleware.run(rootSaga)
 ```
 
 Then you can request data from your api that will be stored
