@@ -1,6 +1,6 @@
-# Documentation de pass-culture-shared
+# redux-saga-data documentation
 
-## Installation des outils
+## Install
 
 ```bash
   npm install -g aglio concurrently drakov dredd

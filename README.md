@@ -1,6 +1,8 @@
 # redux-saga-data
 
-A lib for fetching normalized data in a redux store through sagas
+A lib for fetching normalized data in a redux store through sagas.
+
+See the full [documentation](https://redux-saga-data.netlify.com) for further complex use cases with several collections of data.
 
 ## Basic Usage
 
@@ -109,8 +111,6 @@ render () {
 ```
 
 But if your rendered foos array should be coming from a memoizing merging (and potentially normalized) (and potentially selected from inter data filter conditions) state of foos, then syntax goes easier if you pick from the connected redux store lake of data.
-
-See doc for further complex use cases with several collections of data.  
 
 ## Usage with config
 
