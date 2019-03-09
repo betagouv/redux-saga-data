@@ -26,7 +26,7 @@ export const fromWatchRequestDataActions = (extraConfig = {}) =>
         fetchResult = raceResult.fetchResult
         timeoutResult = raceResult.timeoutResult
       } else {
-        fetchResult = yield call(fetchDataMethod, config)
+        fetchResult = yield call(fetchDataMethod, url, config)
       }
 
       if (fetchResult) {
