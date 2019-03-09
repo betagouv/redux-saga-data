@@ -7,9 +7,9 @@ const successStatusCodes = [200, 201, 202, 203, 205, 206, 207, 208, 210, 226]
 export async function fetchData(url, config = {}) {
   const {
     body,
+    method,
     token
   } = config
-  const method = config.method || 'GET'
 
   const init = {
     credentials: 'include',

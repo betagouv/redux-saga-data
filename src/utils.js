@@ -1,3 +1,9 @@
+export function getConfigWithDefaultValues(config) {
+  return Object.assign({
+    method: 'GET'
+  }, config)
+}
+
 export function getStateKeyFromApiPath(apiPath) {
   return apiPath
       .replace(/^\/|\/$/g, '')
@@ -11,6 +17,6 @@ export function getStateKeyFromUrl(url) {
 }
 
 export function getTypeSuffixFromConfig(config) {
-  const { apiPath, method, stateKey, tag, url } = config
+  const { apiPath, method, stateKey, tag, url } = getConfigWithDefaultValues(config)
   return `${method}_${stateKey || apiPath || url}${tag ? `_${tag}` : ''}`.toUpperCase()
 }
