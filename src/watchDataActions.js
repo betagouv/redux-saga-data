@@ -6,59 +6,53 @@ import { fetchData } from './fetchData'
 
 export const fromWatchRequestDataActions = (extraConfig = {}) =>
   function *watchRequestDataActions(action) {
-    // UNPACK
-    const { method, path } = action
-
-    // CONFIG
     const config = Object.assign({}, extraConfig, action.config)
-    const { body, encode, timeout, url } = config
-    const fetch = config.fetchData || fetchData
+    const { apiPath, method, timeout } = config
+    const fetchDataMethod = config.fetchData || fetchData
 
-    // DATA
+    let url = action.url
+    if (!url) {
+      url = `${config.rootUrl}/${apiPath.replace(/^\//, '')}`
+    }
+
     try {
-      // RACE
       let fetchResult
       let timeoutResult
       if (timeout) {
         const raceResult = yield race({
-          fetchResult: call(fetch, method, path, { body, encode, url }),
+          fetchResult: call(fetchDataMethod, url, config),
           timeoutResult: call(delay, timeout),
         })
         fetchResult = raceResult.fetchResult
         timeoutResult = raceResult.timeoutResult
       } else {
-        fetchResult = yield call(fetch, method, path, { body, encode, url })
+        fetchResult = yield call(fetchDataMethod, config)
       }
 
-      // RESULT
       if (fetchResult) {
-        // PASSING CONFIG
         const { ok, status } = fetchResult
         Object.assign(config, { ok, status })
 
-        // SUCCESS OR FAIL
         if (fetchResult.data) {
-          yield put(successData(method, path, fetchResult.data, config))
+          yield put(successData(fetchResult.data, config))
         } else if (fetchResult.errors) {
           console.error(fetchResult.errors)
-          yield put(failData(method, path, fetchResult.errors, config))
+          yield put(failData(fetchResult.errors, config))
         } else {
           console.warn(
-            `expected a fetched data or a errors from ${method} ${path}`
+            `expected a fetched data or a errors from ${method} ${apiPath}`
           )
         }
       } else if (timeoutResult) {
-        // TIMEOUT
         const errors = [
           {
             global: ['La connexion au serveur est trop faible'],
           },
         ]
         console.error(errors)
-        yield put(failData(method, path, errors, config))
+        yield put(failData(errors, config))
       }
     } catch (error) {
-      // catch is a normally a fail of the api
       Object.assign(config, { ok: false, status: 500 })
       const errors = [
         {
@@ -69,7 +63,7 @@ export const fromWatchRequestDataActions = (extraConfig = {}) =>
         },
       ]
       console.error(errors)
-      yield put(failData(method, path, errors, config))
+      yield put(failData(errors, config))
     }
   }
 

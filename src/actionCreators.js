@@ -3,6 +3,8 @@ import {
   MERGE_DATA,
   RESET_DATA
 } from './actions'
+import { getTypeSuffixFromConfig } from './utils'
+
 
 export const assignData = patch => ({
   patch,
@@ -15,35 +17,23 @@ export const mergeData = (patch, config) => ({
   type: MERGE_DATA
 })
 
-export const failData = (method, path, errors, config) => ({
+export const failData = (errors, config) => ({
   config,
   errors,
-  method,
-  path,
-  type: `FAIL_DATA_${method.toUpperCase()}_${path.toUpperCase()}${
-    config.local ? ' (LOCAL)' : ''
-  }`,
+  type: `FAIL_DATA_${getTypeSuffixFromConfig(config)}`
 })
 
-export const requestData = (method, path, config = {}) => ({
+export const requestData = (config = {}) => ({
   config,
-  method,
-  path,
-  type: `REQUEST_DATA_${method.toUpperCase()}_${path.toUpperCase()}${
-    config.local ? ' (LOCAL)' : ''
-  }`,
+  type: `REQUEST_DATA_${getTypeSuffixFromConfig(config)}`
 })
 
 export const resetData = () => ({
   type: RESET_DATA,
 })
 
-export const successData = (method, path, dataOrDatum, config = {}) => ({
+export const successData = (dataOrDatum, config = {}) => ({
   config,
   dataOrDatum,
-  method,
-  path,
-  type: `SUCCESS_DATA_${method.toUpperCase()}_${path.toUpperCase()}${
-    config.local ? ' (LOCAL)' : ''
-  }`,
+  type: `SUCCESS_DATA_${getTypeSuffixFromConfig(config)}`
 })

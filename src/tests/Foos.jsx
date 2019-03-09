@@ -6,8 +6,10 @@ import { requestData } from '../index'
 export class RawFoos extends Component {
   componentDidMount () {
     const { dispatch, onFailUpdateCallback } = this.props
-    dispatch(requestData('GET', 'foos', {
-      handleFail: () => onFailUpdateCallback()
+    dispatch(requestData({
+      apiPath: '/foos',
+      handleFail: () => onFailUpdateCallback(),
+      method: 'GET'
     }))
   }
 

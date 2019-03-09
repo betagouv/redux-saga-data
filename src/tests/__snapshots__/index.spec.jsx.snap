@@ -10,11 +10,11 @@ ShallowWrapper {
           Array [
             Object {
               "config": Object {
+                "apiPath": "/foos",
                 "handleFail": [Function],
+                "method": "GET",
               },
-              "method": "GET",
-              "path": "foos",
-              "type": "REQUEST_DATA_GET_FOOS",
+              "type": "REQUEST_DATA_GET_/FOOS",
             },
           ],
         ],

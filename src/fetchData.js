@@ -4,12 +4,12 @@ const { NAME, VERSION } = process.env
 
 const successStatusCodes = [200, 201, 202, 203, 205, 206, 207, 208, 210, 226]
 
-export async function fetchData(method, path, config = {}) {
+export async function fetchData(url, config = {}) {
   const {
     body,
-    token,
-    url
+    token
   } = config
+  const method = config.method || 'GET'
 
   const init = {
     credentials: 'include',
@@ -22,7 +22,8 @@ export async function fetchData(method, path, config = {}) {
     'X-Request-ID': uuid(),
   }
 
-  if (method && method !== 'GET' && method !== 'DELETE') {
+  if (method !== 'GET' && method !== 'DELETE') {
+
     let formatBody = body
     let isFormDataBody = formatBody instanceof FormData
     if (formatBody && !isFormDataBody) {
@@ -49,7 +50,6 @@ export async function fetchData(method, path, config = {}) {
         : body
   }
 
-  // token
   if (token) {
     if (!init.headers) {
       init.headers = {}
@@ -57,20 +57,16 @@ export async function fetchData(method, path, config = {}) {
     init.headers.Authorization = `Bearer ${token}`
   }
 
-  // fetch
-  const fetchUrl = `${url}/${path.replace(/^\//, '')}`
-  const fetchResult = await fetch(fetchUrl, init)
+  const fetchResult = await fetch(url, init)
 
-  // prepare result
   const { ok, status } = fetchResult
   const result = {
     ok,
     status,
   }
 
-  // check
   if (successStatusCodes.includes(status)) {
-    // TODO: do we need that here precisely ?
+
     if (window.cordova) {
       window.cordova.plugins.CookieManagementPlugin.flush()
     }
@@ -78,7 +74,7 @@ export async function fetchData(method, path, config = {}) {
     // warn
     if (!fetchResult.json) {
       console.warn(
-        `fetch is a success but expected a json format for the fetchResult of ${fetchUrl}`
+        `fetch is a success but expected a json format for the fetchResult of ${url}`
       )
       result.errors = [
         {
@@ -88,21 +84,18 @@ export async function fetchData(method, path, config = {}) {
       return result
     }
 
-    // success with data
     result.data = await fetchResult.json()
     return result
   }
 
-  // special 204
   if (status === 204) {
     result.data = {}
     return result
   }
 
-  // warn
   if (!fetchResult.json) {
     console.warn(
-      `fetch returns ${status} but we still expected a json format for the fetchResult of ${fetchUrl}`
+      `fetch returns ${status} but we still expected a json format for the fetchResult of ${url}`
     )
     result.errors = [
       {
@@ -112,7 +105,6 @@ export async function fetchData(method, path, config = {}) {
     return result
   }
 
-  // fail with errors
   result.errors = await fetchResult.json()
   return result
 }

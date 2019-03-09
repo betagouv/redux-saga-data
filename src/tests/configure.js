@@ -16,7 +16,7 @@ export function configureTestStore() {
   function* rootSaga() {
     yield all([
       watchDataActions({
-        url: 'http://foo.com',
+        rootUrl: 'http://momarx.fr',
       }),
     ])
   }

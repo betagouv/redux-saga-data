@@ -4,13 +4,7 @@ import {
 } from 'normalized-data-state'
 
 import { ASSIGN_DATA, MERGE_DATA, RESET_DATA } from './actions'
-
-export function getStateKeyFromPath(path) {
-  return path
-      .replace(/\/$/, '')
-      .split('?')[0]
-      .split('/')[0]
-}
+import { getStateKeyFromApiPath, getStateKeyFromUrl } from './utils'
 
 export const createData = (initialState = {}) => (
   state = initialState,
@@ -32,7 +26,9 @@ export const createData = (initialState = {}) => (
 
   if (/SUCCESS_DATA_(DELETE|GET|POST|PUT|PATCH)_(.*)/.test(action.type)) {
 
-    const stateKey = action.config.stateKey || getStateKeyFromPath(action.path)
+    const stateKey = action.config.stateKey ||
+      (action.config.apiPath && getStateKeyFromApiPath(action.config.apiPath)) ||
+      (action.config.url && getStateKeyFromUrl(action.config.url))
 
     const data = !Array.isArray(action.dataOrDatum)
       ? [action.dataOrDatum]
