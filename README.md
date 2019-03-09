@@ -1,4 +1,4 @@
-# redux-request-data
+# redux-saga-data
 
 A lib for fetching normalized data in a redux store through sagas
 

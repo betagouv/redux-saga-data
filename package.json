@@ -49,7 +49,9 @@
     "redux",
     "request",
     "data",
-    "normalizer"
+    "normalizer",
+    "redux-saga",
+    "saga"
   ],
   "main": "lib/index.js",
   "name": "redux-saga-data",
