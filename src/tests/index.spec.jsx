@@ -8,7 +8,7 @@ import { configureTestStore,
   configureFetchDataWithRequestFail,
   configureFetchDataWithRequestSuccess
 } from './configure'
-import Foos from './Foos'
+import Foos, { RawFoos } from './Foos'
 
 describe('src | components | pages | hocs | withRequest', () => {
 
@@ -19,7 +19,7 @@ describe('src | components | pages | hocs | withRequest', () => {
   describe('snapshot', () => {
     it('should match snapshot', () => {
       // when
-      const wrapper = shallow(<Foos />)
+      const wrapper = shallow(<RawFoos dispatch={jest.fn()} foos={[]} />)
 
       // then
       expect(wrapper).toBeDefined()
@@ -27,9 +27,9 @@ describe('src | components | pages | hocs | withRequest', () => {
     })
   })
 
-  describe('functions', () => {
-    describe('login with success', () => {
-      it('should render test component when login is a success', done => {
+  describe('mount with request', () => {
+    describe('request with success', () => {
+      it('should render test component whith foo items', done => {
         // when
         const store = configureTestStore()
         configureFetchDataWithRequestSuccess()
@@ -37,7 +37,22 @@ describe('src | components | pages | hocs | withRequest', () => {
         // then
         mount(
           <Provider store={store}>
-            <Foos />
+            <Foos onSuccessUpdateCallback={done} />
+          </Provider>
+        )
+      })
+    })
+
+    describe('request with fail', () => {
+      it('should render test component whith no foo items', done => {
+        // when
+        const store = configureTestStore()
+        configureFetchDataWithRequestFail()
+
+        // then
+        mount(
+          <Provider store={store}>
+            <Foos onFailUpdateCallback={done} />
           </Provider>
         )
       })

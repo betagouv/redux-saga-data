@@ -3,10 +3,24 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { requestData } from '../index'
 
-export class Foos extends Component {
+export class RawFoos extends Component {
   componentDidMount () {
-    const { dispatch } = this.props
-    dispatch(requestData('GET', 'foos'))
+    const { dispatch, onFailUpdateCallback } = this.props
+    dispatch(requestData('GET', 'foos', {
+      handleFail: () => onFailUpdateCallback()
+    }))
+  }
+
+  componentDidUpdate (prevProps) {
+    const {
+      foos,
+      onSuccessUpdateCallback
+    } = this.props
+
+    // it is part of the test that foos lenght should be equal to 2
+    if (foos !== prevProps.foos && foos.length === 2) {
+      onSuccessUpdateCallback()
+    }
   }
 
   render () {
@@ -14,15 +28,26 @@ export class Foos extends Component {
     return (
       <Fragment>
         {foos.map(foo => (
-          <div key={foo.id}> {foo.text} </div>
+          <div className="foo" key={foo.id}>
+            {foo.text}
+          </div>
         ))}
       </Fragment>
     )
   }
 }
 
-Foos.propTypes = {
-  dispatch: PropTypes.func.isRequired
+RawFoos.defaultProps = {
+  foos: [],
+  onFailUpdateCallback: () => {},
+  onSuccessUpdateCallback: () => {}
+}
+
+RawFoos.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  foos: PropTypes.arrayOf(PropTypes.object),
+  onFailUpdateCallback: PropTypes.func,
+  onSuccessUpdateCallback: PropTypes.func
 }
 
 function mapStateToProps(state) {
@@ -31,4 +56,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Foos)
+const Foos = connect(mapStateToProps)(RawFoos)
+
+export default Foos

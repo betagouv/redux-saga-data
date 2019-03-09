@@ -22,7 +22,7 @@ export function configureTestStore() {
   }
 
   const rootReducer = combineReducers({
-    data: createData({ users: [] }),
+    data: createData({ foos: [] }),
   })
 
   const store = createStore(rootReducer, storeEnhancer)
@@ -34,13 +34,16 @@ export function configureTestStore() {
 
 export function configureFetchDataWithRequestFail () {
   fetch.mockResponse(JSON.stringify(
-    [{ global: ['Nobody is authenticated here'] }],
+    { global: 'Wrong request for foos' }
   ), { status: 400 })
 }
 
 export function configureFetchDataWithRequestSuccess () {
   fetch.mockResponse(JSON.stringify(
-    { email: 'michel.marx@youpi.fr' }
+    [
+      { text: "My foo is here" },
+      { test: "My other foo also" }
+    ],
   ), { status: 200 })
 }
 
