@@ -4,6 +4,7 @@ A lib for fetching normalized data in a redux store through sagas.
 
 See the full [documentation](https://redux-saga-data.netlify.com) for further complex use cases with several collections of data.
 
+[![CircleCI](https://circleci.com/gh/betagouv/redux-saga-data/tree/master.svg?style=svg)](https://circleci.com/gh/betagouv/redux-saga-data/tree/master)
 [![npm version](https://img.shields.io/npm/v/redux-saga-data.svg?style=flat-square)](https://npmjs.org/package/redux-saga-data)
 
 ## Basic Usage
