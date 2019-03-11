@@ -4,6 +4,8 @@ A lib for fetching normalized data in a redux store through sagas.
 
 See the full [documentation](https://redux-saga-data.netlify.com) for further complex use cases with several collections of data.
 
+[![npm version](https://img.shields.io/npm/v/redux-saga-data.svg?style=flat-square)](https://npmjs.org/package/redux-saga-data)
+
 ## Basic Usage
 
 You need to install a redux-saga setup with the watchDataActions and the data reducer:
