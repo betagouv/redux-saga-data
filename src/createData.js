@@ -36,9 +36,19 @@ export const createData = (initialState = {}) => (
 
     const patch = { [stateKey]: data }
 
+    const config = Object.assign({}, action.config)
+    if (config.normalizer) {
+      config.normalizer = {
+        [stateKey]: {
+          normalizer: config.normalizer,
+          stateKey
+        }
+      }
+    }
+
     const nextState = action.method === 'DELETE'
-        ? getNormalizedDeletedState(state, patch, action.config)
-        : getNormalizedMergedState(state, patch, action.config)
+        ? getNormalizedDeletedState(state, patch, config)
+        : getNormalizedMergedState(state, patch, config)
 
     if (action.config.getSuccessState) {
       Object.assign(nextState, action.config.getSuccessState(state, action))
