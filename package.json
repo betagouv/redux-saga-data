@@ -54,7 +54,7 @@
     "redux-saga",
     "saga"
   ],
-  "licence": "MIT",
+  "license": "MIT",
   "main": "lib/index.js",
   "name": "redux-saga-data",
   "private": false,
@@ -71,5 +71,5 @@
     "test": "yarn jest --env=jsdom ./src",
     "watch": "nodemon --watch src --exec \"npm run compile\""
   },
-  "version": "1.4.1"
+  "version": "1.4.3"
 }
