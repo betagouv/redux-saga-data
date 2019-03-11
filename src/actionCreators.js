@@ -26,10 +26,13 @@ export const failData = (errors, config) => ({
   type: `FAIL_DATA_${getTypeSuffixFromConfig(config)}`
 })
 
-export const requestData = (config = {}) => ({
-  config: getConfigWithDefaultValues(config),
-  type: `REQUEST_DATA_${getTypeSuffixFromConfig(config)}`
-})
+export const requestData = (config = {}) => {
+  const configWithDefaultValues = getConfigWithDefaultValues(config)
+  return {
+    config: configWithDefaultValues,
+    type: `REQUEST_DATA_${getTypeSuffixFromConfig(configWithDefaultValues)}`
+  }
+}
 
 export const resetData = () => ({
   type: RESET_DATA,
