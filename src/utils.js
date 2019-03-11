@@ -17,6 +17,6 @@ export function getStateKeyFromUrl(url) {
 }
 
 export function getTypeSuffixFromConfig(config) {
-  const { apiPath, method, stateKey, tag, url } = getConfigWithDefaultValues(config)
+  const { apiPath, method, stateKey, tag, url } = config
   return `${method}_${stateKey || apiPath || url}${tag ? `_${tag}` : ''}`.toUpperCase()
 }

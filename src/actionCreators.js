@@ -3,7 +3,10 @@ import {
   MERGE_DATA,
   RESET_DATA
 } from './actions'
-import { getTypeSuffixFromConfig } from './utils'
+import {
+  getConfigWithDefaultValues,
+  getTypeSuffixFromConfig
+} from './utils'
 
 
 export const assignData = patch => ({
@@ -24,7 +27,7 @@ export const failData = (errors, config) => ({
 })
 
 export const requestData = (config = {}) => ({
-  config,
+  config: getConfigWithDefaultValues(config),
   type: `REQUEST_DATA_${getTypeSuffixFromConfig(config)}`
 })
 
