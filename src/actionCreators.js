@@ -14,15 +14,14 @@ export const assignData = patch => ({
   type: ASSIGN_DATA,
 })
 
-export const mergeData = (patch, config) => ({
+export const mergeData = (patch, config = {}) => ({
   config,
   patch,
   type: MERGE_DATA
 })
 
-export const failData = (errors, config) => ({
+export const failData = (config = {}) => ({
   config,
-  errors,
   type: `FAIL_DATA_${getTypeSuffixFromConfig(config)}`
 })
 
@@ -38,8 +37,7 @@ export const resetData = () => ({
   type: RESET_DATA,
 })
 
-export const successData = (dataOrDatum, config = {}) => ({
+export const successData = (config = {}) => ({
   config,
-  dataOrDatum,
   type: `SUCCESS_DATA_${getTypeSuffixFromConfig(config)}`
 })

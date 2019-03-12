@@ -1,8 +1,11 @@
 import uuid from 'uuid'
 
-const { NAME, VERSION } = process.env
+import {
+  successStatusCodesWithDataOrDatum,
+  successStatusCodesWithoutDataAndDatum
+} from './status'
 
-const successStatusCodes = [200, 201, 202, 203, 205, 206, 207, 208, 210, 226]
+const { NAME, VERSION } = process.env
 
 export async function fetchData(url, config = {}) {
   const {
@@ -65,7 +68,7 @@ export async function fetchData(url, config = {}) {
     status,
   }
 
-  if (successStatusCodes.includes(status)) {
+  if (successStatusCodesWithDataOrDatum.includes(status)) {
 
     if (window.cordova) {
       window.cordova.plugins.CookieManagementPlugin.flush()
@@ -84,12 +87,17 @@ export async function fetchData(url, config = {}) {
       return result
     }
 
-    result.data = await fetchResult.json()
+    const dataOrDatum = await fetchResult.json()
+    if (Array.isArray(dataOrDatum)) {
+      result.data = dataOrDatum
+    } else if (typeof dataOrDatum === 'object') {
+      result.datum = dataOrDatum
+    }
+
     return result
   }
 
-  if (status === 204) {
-    result.data = {}
+  if (successStatusCodesWithoutDataAndDatum.includes(status)) {
     return result
   }
 
