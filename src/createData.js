@@ -40,7 +40,7 @@ export const createData = (initialState = {}) => (
 
     let { data } = config
     if (!data) {
-      if (!datum) {
+      if (datum) {
         data = [datum]
       } else {
         data = []
