@@ -39,9 +39,9 @@ export const fromWatchRequestDataActions = (extraConfig = {}) =>
 
         if (isSuccess) {
           yield put(successData(payload, config))
-        } else if (fetchResult.errors) {
+        } else if (payload.errors) {
           /* eslint-disable-next-line no-console */
-          console.error(fetchResult.errors)
+          console.error(payload.errors)
           yield put(failData(payload, config))
         } else {
           /* eslint-disable-next-line no-console */

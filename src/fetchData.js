@@ -114,7 +114,7 @@ export async function fetchData(url, config = {}) {
     return result
   }
 
-  result.errors = await fetchResult.json()
+  result.payload.errors = await fetchResult.json()
   return result
 }
 
