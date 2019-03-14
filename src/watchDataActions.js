@@ -32,24 +32,17 @@ export const fromWatchRequestDataActions = (extraConfig = {}) =>
       }
 
       if (fetchResult) {
-        const { ok, status } = fetchResult
+        const { ok, payload, status } = fetchResult
         Object.assign(config, { ok, status })
 
         const isSuccess = isSuccessStatus(status)
-  
+
         if (isSuccess) {
-          const successConfig = Object.assign({
-            data: fetchResult.data,
-            datum: fetchResult.datum
-          }, config)
-          yield put(successData(successConfig))
+          yield put(successData(payload, config))
         } else if (fetchResult.errors) {
           /* eslint-disable-next-line no-console */
           console.error(fetchResult.errors)
-          const failConfig = Object.assign({
-            errors: fetchResult.errors
-          }, config)
-          yield put(failData(failConfig))
+          yield put(failData(payload, config))
         } else {
           /* eslint-disable-next-line no-console */
           console.warn(
@@ -64,7 +57,7 @@ export const fromWatchRequestDataActions = (extraConfig = {}) =>
         ]
         /* eslint-disable-next-line no-console */
         console.error(errors)
-        yield put(failData(errors, config))
+        yield put(failData({ errors }, config))
       }
     } catch (error) {
       Object.assign(config, { ok: false, status: 500 })
@@ -78,21 +71,23 @@ export const fromWatchRequestDataActions = (extraConfig = {}) =>
       ]
       /* eslint-disable-next-line no-console */
       console.error(errors)
-      yield put(failData(errors, config))
+      yield put(failData({ errors }, config))
     }
   }
 
 export function* fromWatchFailDataActions(action) {
-  if (action.config.handleFail) {
+  const { config: { handleFail } } = action
+  if (handleFail) {
     const currentState = yield select(state => state)
-    yield call(action.config.handleFail, currentState, action)
+    yield call(handleFail, currentState, action)
   }
 }
 
 export function* fromWatchSuccessDataActions(action) {
-  if (action.config.handleSuccess) {
+  const { config: { handleSuccess } } = action
+  if (handleSuccess) {
     const currentState = yield select(state => state)
-    yield call(action.config.handleSuccess, currentState, action)
+    yield call(handleSuccess, currentState, action)
   }
 }
 

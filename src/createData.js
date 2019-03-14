@@ -27,8 +27,10 @@ export const createData = (initialState = {}) => (
   }
 
   if (/SUCCESS_DATA_(DELETE|GET|POST|PUT|PATCH)_(.*)/.test(action.type)) {
+    const { payload } = action
     const config = Object.assign({}, action.config)
-    const { apiPath, datum, method, normalizer, status, url } = config
+    const { datum } = payload
+    const { apiPath, method, normalizer, status, url } = config
 
     const stateKey = config.stateKey ||
       (apiPath && getStateKeyFromApiPath(apiPath)) ||
@@ -38,7 +40,7 @@ export const createData = (initialState = {}) => (
       return Object.assign({}, state)
     }
 
-    let { data } = config
+    let { data } = payload
     if (!data) {
       if (datum) {
         data = [datum]

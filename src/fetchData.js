@@ -65,6 +65,7 @@ export async function fetchData(url, config = {}) {
   const { ok, status } = fetchResult
   const result = {
     ok,
+    payload: {},
     status,
   }
 
@@ -79,7 +80,7 @@ export async function fetchData(url, config = {}) {
       console.warn(
         `fetch is a success but expected a json format for the fetchResult of ${url}`
       )
-      result.errors = [
+      result.payload.errors = [
         {
           global: ['Le serveur ne renvoit pas de la donnée au bon format'],
         },
@@ -89,9 +90,9 @@ export async function fetchData(url, config = {}) {
 
     const dataOrDatum = await fetchResult.json()
     if (Array.isArray(dataOrDatum)) {
-      result.data = dataOrDatum
+      result.payload.data = dataOrDatum
     } else if (typeof dataOrDatum === 'object') {
-      result.datum = dataOrDatum
+      result.payload.datum = dataOrDatum
     }
 
     return result
@@ -105,7 +106,7 @@ export async function fetchData(url, config = {}) {
     console.warn(
       `fetch returns ${status} but we still expected a json format for the fetchResult of ${url}`
     )
-    result.errors = [
+    result.payload.errors = [
       {
         global: ['Le serveur ne renvoit pas de la donnée au bon format'],
       },
