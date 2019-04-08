@@ -2992,6 +2992,13 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
+fetch-normalize-data@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/fetch-normalize-data/-/fetch-normalize-data-0.0.7.tgz#125942b99b0a9b53ac65e561272b3dab88d59b54"
+  dependencies:
+    eslint "^5.8.0"
+    lodash.uniqby "^4.7.0"
+
 figures@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"
@@ -4964,13 +4971,6 @@ normalize-range@^0.1.2:
 normalize-selector@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/normalize-selector/-/normalize-selector-0.2.0.tgz#d0b145eb691189c63a78d201dc4fdb1293ef0c03"
-
-normalized-data-state@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/normalized-data-state/-/normalized-data-state-0.2.0.tgz#4d923eb7af0e337bc8eab48637a497697db8c2a0"
-  dependencies:
-    eslint "^5.8.0"
-    lodash.uniqby "^4.7.0"
 
 npm-bundled@^1.0.1:
   version "1.0.6"
