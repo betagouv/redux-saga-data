@@ -1,3 +1,3 @@
-export * from 'fetch-normalize-data'
-
+export * from './createDataReducer'
+export * from './requestData'
 export * from './watchDataActions'

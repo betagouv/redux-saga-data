@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import 'babel-polyfill'
 import { mount } from 'enzyme'
-import { createDataReducer, requestData } from 'fetch-normalize-data'
 import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react'
 import { connect, Provider } from 'react-redux'
@@ -9,6 +8,8 @@ import { applyMiddleware, combineReducers, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
 
+import { createDataReducer } from '../createDataReducer'
+import { requestData } from '../requestData'
 import { watchDataActions } from '../watchDataActions'
 
 const mockFoos = [
