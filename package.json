@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "eslint": "^5.8.0",
-    "fetch-normalize-data": "1.0.0",
+    "fetch-normalize-data": "1.1.0",
     "prop-types": "^15.6.2",
     "redux": "^4.0.0",
     "redux-saga": "^0.15.3",
