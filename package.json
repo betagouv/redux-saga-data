@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "eslint": "^5.8.0",
-    "fetch-normalize-data": "0.0.7",
+    "fetch-normalize-data": "1.0.0",
     "prop-types": "^15.6.2",
     "redux": "^4.0.0",
     "redux-saga": "^0.15.3",
@@ -70,5 +70,5 @@
     "test": "yarn jest --env=jsdom ./src",
     "watch": "nodemon --watch src --exec \"npm run compile\""
   },
-  "version": "2.2.1"
+  "version": "2.2.2"
 }
