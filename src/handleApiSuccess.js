@@ -6,11 +6,12 @@ export function *handleApiSuccess(payload, config) {
 
   if (handleSuccess) {
     const state = yield select(s => s)
-    handleSuccess(state, { config, payload })
+    const sucessAction = { config, payload }
+    handleSuccess(state, sucessAction)
   }
 
   yield put(successData(payload, config))
-  
+
 }
 
 export default handleApiSuccess

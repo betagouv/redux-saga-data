@@ -8,10 +8,10 @@ export function *handleApiError(payload, config) {
 
   if (handleFail) {
     const state = yield select(s => s)
-    handleFail(state, { config, payload })
+    const sucessAction = { config, payload }
+    handleFail(state, sucessAction)
   }
 
-  throw Error(payload.errors)
 }
 
 export default handleApiError

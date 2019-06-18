@@ -17,12 +17,11 @@ export function *handleServerError (error, config) {
     },
   ]
   const payload = { errors }
-  const failAction = { config, payload  }
-
   yield put(failData(payload, config))
 
   if (handleFail) {
     const state = yield select(s => s)
+    const failAction = { config, payload  }
     handleFail(state, failAction)
   }
 }
