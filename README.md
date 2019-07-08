@@ -1,5 +1,5 @@
 <h1>
-  <img src="https://raw.githubusercontent.com/betagouv/redux-saga-data/master/icon.png" height=60 title="made by @cecilesnips" style="vertical-align: middle;"/>
+  <img class="logo" src="https://raw.githubusercontent.com/betagouv/redux-saga-data/master/icon.png" height=60 title="made by @cecilesnips" style="vertical-align: middle;"/>
   <span>
     redux-saga-data
   </span>
