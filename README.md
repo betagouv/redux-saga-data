@@ -1,4 +1,9 @@
-# redux-saga-data
+<h1>
+  <img src="https://raw.githubusercontent.com/betagouv/redux-saga-data/master/icon.png" height=60 title="made by @cecilesnips" style="vertical-align: middle;"/>
+  <span>
+    redux-saga-data
+  </span>
+</h1>
 
 A lib for fetching normalized data in a redux store through sagas.
 
