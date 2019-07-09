@@ -7,6 +7,7 @@
     "redux-saga": "^0.15.3",
     "uuid": "^3.3.2"
   },
+  "description": "A lib for fetching normalized data in a redux store through sagas.",
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -70,5 +71,5 @@
     "test": "yarn jest --env=jsdom ./src",
     "watch": "nodemon --watch src --exec \"npm run compile\""
   },
-  "version": "2.5.3"
+  "version": "2.5.4"
 }
