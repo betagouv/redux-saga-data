@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga/effects'
 
-import { fromWatchRequestDataActions } from './fromWatchRequestDataActions'
+import fromWatchRequestDataActions from './fromWatchRequestDataActions'
 
 export function *watchDataActions(config = {}) {
   yield takeEvery(

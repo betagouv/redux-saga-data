@@ -7,11 +7,11 @@ import {
 import { delay } from 'redux-saga'
 import { call, race } from 'redux-saga/effects'
 
-import { handleApiError } from './handleApiError'
-import { handleApiSuccess } from './handleApiSuccess'
-import { handleTimeoutError } from './handleTimeoutError'
-import { handleResultError } from './handleResultError'
-import { handleServerError } from './handleServerError'
+import handleApiError from './handleApiError'
+import handleApiSuccess from './handleApiSuccess'
+import handleTimeoutError from './handleTimeoutError'
+import handleResultError from './handleResultError'
+import handleServerError from './handleServerError'
 
 export const fromWatchRequestDataActions = (configWithoutDefaultValues) =>
   function *fetchToSuccessOrFailData(action) {
