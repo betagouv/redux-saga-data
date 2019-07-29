@@ -1,5 +1,5 @@
 import { failData } from 'fetch-normalize-data'
-import { put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 export const GLOBAL_RESULT_ERROR = 'Result returned by the server is not at the good json format'
 
@@ -19,7 +19,7 @@ export function *handleResultError (config) {
   if (handleFail) {
     const state = yield select(s => s)
     const failAction = { config, payload }
-    handleFail(state, { payload })
+    yield call(handleFail, state, failAction)
   }
 
   throw Error(errors)
