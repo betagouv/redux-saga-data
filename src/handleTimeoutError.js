@@ -1,5 +1,5 @@
 import { failData } from 'fetch-normalize-data'
-import { put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 export const GLOBAL_TIMEOUT_ERROR = 'Server timeout'
 
@@ -19,7 +19,7 @@ export function *handleTimeoutError (config) {
   if (handleFail) {
     const state = yield select(s => s)
     const failAction = { config, payload }
-    handleFail(state, failAction)
+    yield call(handleFail, state, failAction)
   }
 
   throw Error(errors)
