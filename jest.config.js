@@ -3,8 +3,8 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   setupFiles: ['<rootDir>/jest.setup.js'],
-  testEnvironment: 'node',
-  'testURL': 'http://localhost',
+  testEnvironment: "jest-environment-jsdom-global",
+  testURL: 'http://localhost',
   transform: {
     "^.+\\.(js|jsx|mjs)$": "<rootDir>/jest-transformer.js"
   },
