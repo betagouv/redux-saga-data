@@ -1,7 +1,7 @@
 {
   "name": "redux-saga-data",
   "description": "A lib for fetching normalized data in a redux store through sagas",
-  "version": "2.8.3",
+  "version": "2.8.4",
   "private": false,
   "main": "lib/index.js",
   "license": "MPL-2.0",
