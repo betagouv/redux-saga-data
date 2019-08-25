@@ -5,6 +5,10 @@
   "private": false,
   "main": "lib/index.js",
   "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/betagouv/redux-saga-data"
+  },
   "dependencies": {
     "fetch-normalize-data": "1.8.2",
     "redux-saga": "^1.1.1"
@@ -50,10 +54,6 @@
     "redux-saga",
     "saga"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/betagouv/redux-saga-data"
-  },
   "scripts": {
     "compile": "rm -rf lib && babel --plugins transform-class-properties,transform-object-rest-spread --presets env,react -d lib/ --ignore tests src/",
     "format:js": "prettier-eslint --write './src/**/*.{js,jsx}'",
