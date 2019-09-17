@@ -5,12 +5,15 @@ import {
   SET_DATA,
   assignData,
   createDataReducer,
+  deleteData,
   fetchData,
   getNormalizedDeletedState,
   getNormalizedMergedState,
   mergeData,
   requestData,
   resetData,
+  selectEntitiesByKeyAndJoin,
+  selectEntityByKeyAndId,
   setData
 } from 'fetch-normalize-data'
 
@@ -21,12 +24,15 @@ export {
   SET_DATA,
   assignData,
   createDataReducer,
+  deleteData,
   fetchData,
   getNormalizedDeletedState,
   getNormalizedMergedState,
   mergeData,
   requestData,
   resetData,
+  selectEntitiesByKeyAndJoin,
+  selectEntityByKeyAndId,
   setData
 }
 export * from './watchDataActions'
