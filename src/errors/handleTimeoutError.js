@@ -13,12 +13,12 @@ export function *handleTimeoutError (config) {
     },
   ]
 
-  const payload = { errors }
-  yield put(failData(payload, config))
+  const result = { errors }
+  yield put(failData(result, config))
 
   if (handleFail) {
     const state = yield select(s => s)
-    const failAction = { config, payload }
+    const failAction = { config, result }
     yield call(handleFail, state, failAction)
   }
 

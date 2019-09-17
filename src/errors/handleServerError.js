@@ -6,8 +6,6 @@ export const GLOBAL_SERVER_ERROR = 'Server error. Try to to refresh the page.'
 export function *handleServerError (error, config) {
   const globalServerError = config.globalServerError || GLOBAL_SERVER_ERROR
   const { handleFail } = config
-
-  Object.assign(config, { ok: false, status: 500 })
   const errors = [
     {
       global: [globalServerError],
@@ -16,12 +14,16 @@ export function *handleServerError (error, config) {
       data: [String(error)],
     },
   ]
-  const payload = { errors }
-  yield put(failData(payload, config))
+  const result = {
+    ok: false,
+    payload: { errors },
+    status: 500
+  }
+  yield put(failData(result, config))
 
   if (handleFail) {
     const state = yield select(s => s)
-    const failAction = { config, payload  }
+    const failAction = { config, result }
     yield call(handleFail, state, failAction)
   }
 }

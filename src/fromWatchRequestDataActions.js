@@ -7,10 +7,9 @@ import {
 import { delay } from 'redux-saga'
 import { call, race } from 'redux-saga/effects'
 
+import handleApiSuccess from './handleApiSuccess'
 import handleApiError from './errors/handleApiError'
-import handleApiSuccess from './errors/handleApiSuccess'
 import handleTimeoutError from './errors/handleTimeoutError'
-import handleResultError from './errors/handleResultError'
 import handleServerError from './errors/handleServerError'
 
 export const fromWatchRequestDataActions = (configWithoutDefaultValues) =>
@@ -39,22 +38,16 @@ export const fromWatchRequestDataActions = (configWithoutDefaultValues) =>
       } else {
         fetchResult = yield call(fetchDataMethod, url, config)
       }
-
-      if (!fetchResult) {
-        yield call(handleResultError, config)
-      }
-
-      const { ok, payload, status } = fetchResult
-      Object.assign(config, { ok, status })
+      const { payload, status } = fetchResult
 
       const isSuccess = isSuccessStatus(status)
       if (isSuccess) {
-        yield call(handleApiSuccess, payload, config)
+        yield call(handleApiSuccess, fetchResult, config)
         return
       }
 
       if (payload.errors) {
-        yield call(handleApiError, payload, config)
+        yield call(handleApiError, fetchResult, config)
       }
 
       if (timeoutResult) {
