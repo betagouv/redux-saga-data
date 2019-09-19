@@ -7,7 +7,7 @@
   "license": "MPL-2.0",
   "dependencies": {
     "fetch-normalize-data": "1.8.1",
-    "redux-saga": "^1.0.5"
+    "redux-saga": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
