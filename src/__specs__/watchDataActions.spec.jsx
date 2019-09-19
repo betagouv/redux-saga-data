@@ -3,7 +3,7 @@ import 'babel-polyfill'
 import { mount } from 'enzyme'
 import { createDataReducer, requestData } from 'fetch-normalize-data'
 import PropTypes from 'prop-types'
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { connect, Provider } from 'react-redux'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
@@ -27,7 +27,7 @@ function* rootSaga() {
 }
 const rootReducer = combineReducers({ data: createDataReducer({ foos: [] }) })
 
-class Foos extends Component {
+class Foos extends PureComponent {
   componentDidMount () {
     const { apiPath, dispatch, handleFailExpectation } = this.props
     dispatch(requestData({
@@ -81,13 +81,13 @@ jest.mock('fetch-normalize-data', () => {
     fetchData: (url, config) => {
       if (url === 'https://momarx.com/failFoos') {
         return {
-          payload: { errors: [] },
+          errors: [],
           status: 400
         }
       }
       if (url === 'https://momarx.com/successFoos') {
         return {
-          payload: { data: mockFoos },
+          data: mockFoos,
           status: 200
         }
       }
@@ -96,12 +96,18 @@ jest.mock('fetch-normalize-data', () => {
   }
 })
 
-describe('redux-thunk-data with Foos basic usage', () => {
+describe('redux-saga-data with Foos basic usage', () => {
   describe('request with success', () => {
     it('should render test component whith foo items', done => {
       // given
       const store = createStore(rootReducer, storeEnhancer)
       sagaMiddleware.run(rootSaga)
+      const expectedFoos = mockFoos
+        .filter(mockFoo => mockFoo.type === "good")
+        .map(mockFoo => ({
+          ...mockFoo,
+          __ACTIVITIES__: ["/successFoos"],
+        }))
 
       // when
       mount(
@@ -116,11 +122,9 @@ describe('redux-thunk-data with Foos basic usage', () => {
 
       // then
       function handleSuccessExpectation(foos) {
-        expect(foos).toHaveLength(1)
-        expect(foos[0]).toEqual(mockFoos[0])
+        expect(foos).toEqual(expectedFoos)
         done()
       }
-
     })
   })
 
@@ -141,7 +145,10 @@ describe('redux-thunk-data with Foos basic usage', () => {
       )
 
       // then
-      function handleFailExpectation() {
+      function handleFailExpectation(state, action) {
+        const { payload } = action
+        const { errors } = payload
+        expect(errors).toHaveLength(2)
         done()
       }
     })

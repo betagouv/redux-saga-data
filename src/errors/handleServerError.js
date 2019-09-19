@@ -14,16 +14,16 @@ export function *handleServerError (error, config) {
       data: [String(error)],
     },
   ]
-  const result = {
+  const payload = {
+    errors,
     ok: false,
-    payload: { errors },
     status: 500
   }
-  yield put(failData(result, config))
+  yield put(failData(payload, config))
 
   if (handleFail) {
     const state = yield select(s => s)
-    const failAction = { config, result }
+    const failAction = { config, payload }
     yield call(handleFail, state, failAction)
   }
 }
