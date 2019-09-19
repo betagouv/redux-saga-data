@@ -1,7 +1,7 @@
 import { failData } from 'fetch-normalize-data'
 import { call, put, select } from 'redux-saga/effects'
 
-export function *handleApiError(payload, config) {
+export function* handleApiError(payload, config) {
   const { handleFail } = config
 
   yield put(failData(payload, config))
@@ -11,7 +11,6 @@ export function *handleApiError(payload, config) {
     const action = { config, payload }
     yield call(handleFail, state, action)
   }
-
 }
 
 export default handleApiError

@@ -13,7 +13,7 @@ import handleTimeoutError from './errors/handleTimeoutError'
 import handleServerError from './errors/handleServerError'
 
 export const fromWatchRequestDataActions = configWithoutDefaultValues =>
-  function *fetchToSuccessOrFailData(action) {
+  function* fetchToSuccessOrFailData(action) {
     const config = getConfigWithDefaultValues(
       Object.assign({}, configWithoutDefaultValues, action.config)
     )
@@ -53,7 +53,6 @@ export const fromWatchRequestDataActions = configWithoutDefaultValues =>
       if (delayed) {
         yield call(handleTimeoutError, config)
       }
-
     } catch (error) {
       yield call(handleServerError, error, config)
     }

@@ -3,7 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 export const GLOBAL_TIMEOUT_ERROR = 'Server timeout'
 
-export function *handleTimeoutError (config) {
+export function* handleTimeoutError(config) {
   const globalTimeoutError = config.globalTimeoutError || GLOBAL_TIMEOUT_ERROR
   const { handleFail } = config
 
@@ -16,7 +16,7 @@ export function *handleTimeoutError (config) {
   const payload = {
     errors,
     ok: false,
-    status: 504
+    status: 504,
   }
   yield put(failData(payload, config))
 
