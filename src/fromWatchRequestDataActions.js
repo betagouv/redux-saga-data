@@ -12,7 +12,7 @@ import handleApiError from './errors/handleApiError'
 import handleTimeoutError from './errors/handleTimeoutError'
 import handleServerError from './errors/handleServerError'
 
-export const fromWatchRequestDataActions = (configWithoutDefaultValues) =>
+export const fromWatchRequestDataActions = configWithoutDefaultValues =>
   function *fetchToSuccessOrFailData(action) {
     const config = getConfigWithDefaultValues(
       Object.assign({}, configWithoutDefaultValues, action.config)
@@ -24,33 +24,33 @@ export const fromWatchRequestDataActions = (configWithoutDefaultValues) =>
     const fetchDataMethod = config.fetchData || fetchData
 
     try {
-      let fetchResult
-      let timeoutResult
+      let delayed
+      let payload
       if (timeout) {
-        const raceResult = yield race({
-          fetchResult: call(fetchDataMethod, url, config),
-          timeoutResult: call(delay, timeout),
+        const result = yield race({
+          delayed: call(delay, timeout),
+          payload: call(fetchDataMethod, url, config),
         })
         /* eslint-disable-next-line prefer-destructuring */
-        fetchResult = raceResult.fetchResult
+        payload = result.payload
         /* eslint-disable-next-line prefer-destructuring */
-        timeoutResult = raceResult.timeoutResult
+        delayed = result.delayed
       } else {
-        fetchResult = yield call(fetchDataMethod, url, config)
+        payload = yield call(fetchDataMethod, url, config)
       }
-      const { payload, status } = fetchResult
+      const { errors, status } = payload
 
       const isSuccess = isSuccessStatus(status)
       if (isSuccess) {
-        yield call(handleApiSuccess, fetchResult, config)
+        yield call(handleApiSuccess, payload, config)
         return
       }
 
-      if (payload.errors) {
-        yield call(handleApiError, fetchResult, config)
+      if (errors) {
+        yield call(handleApiError, payload, config)
       }
 
-      if (timeoutResult) {
+      if (delayed) {
         yield call(handleTimeoutError, config)
       }
 
