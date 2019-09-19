@@ -1,7 +1,7 @@
 import { successData } from 'fetch-normalize-data'
 import { call, put, select } from 'redux-saga/effects'
 
-export function *handleApiSuccess(payload, config) {
+export function* handleApiSuccess(payload, config) {
   const { handleSuccess } = config
 
   yield put(successData(payload, config))

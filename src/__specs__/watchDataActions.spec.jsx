@@ -12,8 +12,8 @@ import { all } from 'redux-saga/effects'
 import watchDataActions from '../watchDataActions'
 
 const mockFoos = [
-  { id: "AE", text: "My foo is here", type: "good" },
-  { id: "BF", test: "My other foo also", type: "bad" }
+  { id: 'AE', text: 'My foo is here', type: 'good' },
+  { id: 'BF', test: 'My other foo also', type: 'bad' },
 ]
 
 const sagaMiddleware = createSagaMiddleware()
@@ -28,16 +28,18 @@ function* rootSaga() {
 const rootReducer = combineReducers({ data: createDataReducer({ foos: [] }) })
 
 class Foos extends PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const { apiPath, dispatch, handleFailExpectation } = this.props
-    dispatch(requestData({
-      apiPath,
-      handleFail: handleFailExpectation,
-      stateKey: 'foos'
-    }))
+    dispatch(
+      requestData({
+        apiPath,
+        handleFail: handleFailExpectation,
+        stateKey: 'foos',
+      })
+    )
   }
 
-  render () {
+  render() {
     const { foos, handleSuccessExpectation } = this.props
 
     if (foos && foos.length) {
@@ -47,9 +49,7 @@ class Foos extends PureComponent {
     return (
       <Fragment>
         {(foos || []).map(foo => (
-          <div key={foo.id}>
-            {foo.text}
-          </div>
+          <div key={foo.id}>{foo.text}</div>
         ))}
       </Fragment>
     )
@@ -58,18 +58,18 @@ class Foos extends PureComponent {
 Foos.defaultProps = {
   foos: null,
   handleFailExpectation: () => ({}),
-  handleSuccessExpectation: () => ({})
+  handleSuccessExpectation: () => ({}),
 }
 Foos.propTypes = {
   apiPath: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   foos: PropTypes.arrayOf(PropTypes.shape()),
   handleFailExpectation: PropTypes.func,
-  handleSuccessExpectation: PropTypes.func
+  handleSuccessExpectation: PropTypes.func,
 }
 function mapStateToProps(state, ownProps) {
   return {
-    foos: (state.data.foos || []).filter(foo => foo.type === ownProps.type)
+    foos: (state.data.foos || []).filter(foo => foo.type === ownProps.type),
   }
 }
 const FoosContainer = connect(mapStateToProps)(Foos)
@@ -82,17 +82,17 @@ jest.mock('fetch-normalize-data', () => {
       if (url === 'https://momarx.com/failFoos') {
         return {
           errors: [],
-          status: 400
+          status: 400,
         }
       }
       if (url === 'https://momarx.com/successFoos') {
         return {
           data: mockFoos,
-          status: 200
+          status: 200,
         }
       }
       return actualModule.fetchData(url, config)
-    }
+    },
   }
 })
 
@@ -103,17 +103,17 @@ describe('redux-saga-data with Foos basic usage', () => {
       const store = createStore(rootReducer, storeEnhancer)
       sagaMiddleware.run(rootSaga)
       const expectedFoos = mockFoos
-        .filter(mockFoo => mockFoo.type === "good")
+        .filter(mockFoo => mockFoo.type === 'good')
         .map(mockFoo => ({
           ...mockFoo,
-          __ACTIVITIES__: ["/successFoos"],
+          __ACTIVITIES__: ['/successFoos'],
         }))
 
       // when
       mount(
         <Provider store={store}>
           <FoosContainer
-            apiPath='/successFoos'
+            apiPath="/successFoos"
             handleSuccessExpectation={handleSuccessExpectation}
             type="good"
           />
@@ -122,7 +122,7 @@ describe('redux-saga-data with Foos basic usage', () => {
 
       // then
       function handleSuccessExpectation(foos) {
-        expect(foos).toEqual(expectedFoos)
+        expect(foos).toStrictEqual(expectedFoos)
         done()
       }
     })
@@ -138,7 +138,7 @@ describe('redux-saga-data with Foos basic usage', () => {
       mount(
         <Provider store={store}>
           <FoosContainer
-            apiPath='/failFoos'
+            apiPath="/failFoos"
             handleFailExpectation={handleFailExpectation}
           />
         </Provider>

@@ -14,7 +14,7 @@ import {
   resetData,
   selectEntitiesByKeyAndJoin,
   selectEntityByKeyAndId,
-  setData
+  setData,
 } from 'fetch-normalize-data'
 
 export {
@@ -33,6 +33,6 @@ export {
   resetData,
   selectEntitiesByKeyAndJoin,
   selectEntityByKeyAndId,
-  setData
+  setData,
 }
 export * from './watchDataActions'

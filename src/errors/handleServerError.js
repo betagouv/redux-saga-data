@@ -3,7 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 export const GLOBAL_SERVER_ERROR = 'Server error. Try to to refresh the page.'
 
-export function *handleServerError (error, config) {
+export function* handleServerError(error, config) {
   const globalServerError = config.globalServerError || GLOBAL_SERVER_ERROR
   const { handleFail } = config
   const errors = [
@@ -17,7 +17,7 @@ export function *handleServerError (error, config) {
   const payload = {
     errors,
     ok: false,
-    status: 500
+    status: 500,
   }
   yield put(failData(payload, config))
 
