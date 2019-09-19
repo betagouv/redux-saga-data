@@ -56,7 +56,7 @@
   },
   "scripts": {
     "compile": "rm -rf lib && babel --plugins transform-class-properties,transform-object-rest-spread --presets env,react -d lib/ --ignore tests src/",
-    "format:js": "prettier-eslint --write './**/*.{js,jsx}'",
+    "format:js": "prettier-eslint --write './src/**/*.{js,jsx}'",
     "postinstall": "if [ -d 'src/' ]; then yarn run compile; fi",
     "precommit": "./precommit.sh",
     "prettier": "$(yarn bin)/prettier --write 'src/**/*.js'",
