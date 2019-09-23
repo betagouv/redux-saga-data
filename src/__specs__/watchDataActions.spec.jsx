@@ -11,9 +11,13 @@ import { all } from 'redux-saga/effects'
 
 import watchDataActions from '../watchDataActions'
 
-const mockFoos = [
+const mockFirstFoos = [
   { id: 'AE', text: 'My foo is here', type: 'good' },
   { id: 'BF', test: 'My other foo also', type: 'bad' },
+]
+const mockSecondFoos = [
+  { id: 'AG', text: 'My second foo is here', type: 'good' },
+  { id: 'BJ', test: 'My other second foo also', type: 'bad' },
 ]
 
 const sagaMiddleware = createSagaMiddleware()
@@ -33,15 +37,15 @@ class Foos extends PureComponent {
     dispatch(requestData({
       apiPath,
       handleFail: handleFailExpectation,
+      handleSuccess: () =>
+        dispatch(requestData({
+          activityTag: 'secondFoos',
+          apiPath,
+          stateKey: 'foos',
+        })),
       stateKey: 'foos',
-      tag: 'firstFoos'
     }))
-    dispatch(requestData({
-      apiPath,
-      handleFail: handleFailExpectation,
-      stateKey: 'foos',
-      tag: 'secondFoos'
-    }))
+
   }
 
   render() {
@@ -86,13 +90,19 @@ jest.mock('fetch-normalize-data', () => {
     fetchData: (url, config) => {
       if (url === 'https://momarx.com/failFoos') {
         return {
-          errors: ["failed foos"],
+          errors: [{ data: ["failed foos"] }],
           status: 400
         }
       }
       if (url === 'https://momarx.com/successFoos') {
+        if (config.activityTag === 'secondFoos') {
+          return {
+            data: mockSecondFoos,
+            status: 200,
+          }
+        }
         return {
-          data: mockFoos,
+          data: mockFirstFoos,
           status: 200,
         }
       }
@@ -107,12 +117,19 @@ describe('redux-saga-data with Foos basic usage', () => {
       // given
       const store = createStore(rootReducer, storeEnhancer)
       sagaMiddleware.run(rootSaga)
-      const expectedFoos = mockFoos
+      const expectedFirstFoos = mockFirstFoos
         .filter(mockFoo => mockFoo.type === 'good')
         .map(mockFoo => ({
           ...mockFoo,
           __ACTIVITIES__: ['/successFoos'],
         }))
+      const expectedSecondFoos = mockSecondFoos
+        .filter(mockFoo => mockFoo.type === 'good')
+        .map(mockFoo => ({
+          ...mockFoo,
+          __ACTIVITIES__: ['secondFoos'],
+        }))
+      const expectedFoos = [...expectedFirstFoos, ...expectedSecondFoos]
 
       // when
       mount(
@@ -153,8 +170,8 @@ describe('redux-saga-data with Foos basic usage', () => {
       function handleFailExpectation(state, action) {
         const { payload } = action
         const { errors } = payload
-        expect(errors).toHaveLength(2)
-        expect(errors[0]).toBe("failed foos")
+        expect(errors).toHaveLength(1)
+        expect(errors[0]).toStrictEqual({ data: ["failed foos"] })
         done()
       }
     })
