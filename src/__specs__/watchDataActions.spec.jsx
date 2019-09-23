@@ -34,18 +34,21 @@ const rootReducer = combineReducers({ data: createDataReducer({ foos: [] }) })
 class Foos extends PureComponent {
   componentDidMount() {
     const { apiPath, dispatch, handleFailExpectation } = this.props
-    dispatch(requestData({
-      apiPath,
-      handleFail: handleFailExpectation,
-      handleSuccess: () =>
-        dispatch(requestData({
-          activityTag: 'secondFoos',
-          apiPath,
-          stateKey: 'foos',
-        })),
-      stateKey: 'foos',
-    }))
-
+    dispatch(
+      requestData({
+        apiPath,
+        handleFail: handleFailExpectation,
+        handleSuccess: () =>
+          dispatch(
+            requestData({
+              activityTag: 'secondFoos',
+              apiPath,
+              stateKey: 'foos',
+            })
+          ),
+        stateKey: 'foos',
+      })
+    )
   }
 
   render() {
@@ -90,8 +93,8 @@ jest.mock('fetch-normalize-data', () => {
     fetchData: (url, config) => {
       if (url === 'https://momarx.com/failFoos') {
         return {
-          errors: [{ data: ["failed foos"] }],
-          status: 400
+          errors: [{ data: ['failed foos'] }],
+          status: 400,
         }
       }
       if (url === 'https://momarx.com/successFoos') {
@@ -171,7 +174,7 @@ describe('redux-saga-data with Foos basic usage', () => {
         const { payload } = action
         const { errors } = payload
         expect(errors).toHaveLength(1)
-        expect(errors[0]).toStrictEqual({ data: ["failed foos"] })
+        expect(errors[0]).toStrictEqual({ data: ['failed foos'] })
         done()
       }
     })
