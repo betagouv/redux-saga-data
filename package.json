@@ -10,7 +10,7 @@
     "url": "https://github.com/betagouv/redux-saga-data"
   },
   "dependencies": {
-    "fetch-normalize-data": "1.8.2",
+    "fetch-normalize-data": "1.8.3",
     "redux-saga": "^1.1.1"
   },
   "devDependencies": {
