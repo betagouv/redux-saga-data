@@ -28,12 +28,10 @@ export const fromWatchRequestDataActions = configWithoutDefaultValues =>
       let delayed
       let payload
       if (timeout) {
-        console.log({timeout})
         const result = yield race({
-          delayed: call(delay, timeout),
+          delayed: delay(timeout),
           payload: call(fetchDataMethod, url, config),
         })
-        console.log({result})
         /* eslint-disable-next-line prefer-destructuring */
         payload = result.payload
         /* eslint-disable-next-line prefer-destructuring */
