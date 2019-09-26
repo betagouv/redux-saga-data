@@ -4,8 +4,7 @@ import {
   getUrlFromConfig,
   isSuccessStatus,
 } from 'fetch-normalize-data'
-import { delay } from 'redux-saga'
-import { call, race } from 'redux-saga/effects'
+import { call, delay, race } from 'redux-saga/effects'
 
 import handleApiSuccess from './handleApiSuccess'
 import handleApiError from './errors/handleApiError'
@@ -23,14 +22,18 @@ export const fromWatchRequestDataActions = configWithoutDefaultValues =>
 
     const fetchDataMethod = config.fetchData || fetchData
 
+    console.log({fetchDataMethod, url, config})
+
     try {
       let delayed
       let payload
       if (timeout) {
+        console.log({timeout})
         const result = yield race({
           delayed: call(delay, timeout),
           payload: call(fetchDataMethod, url, config),
         })
+        console.log({result})
         /* eslint-disable-next-line prefer-destructuring */
         payload = result.payload
         /* eslint-disable-next-line prefer-destructuring */
