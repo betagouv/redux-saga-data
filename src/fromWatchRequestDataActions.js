@@ -22,8 +22,6 @@ export const fromWatchRequestDataActions = configWithoutDefaultValues =>
 
     const fetchDataMethod = config.fetchData || fetchData
 
-    console.log({fetchDataMethod, url, config})
-
     try {
       let delayed
       let payload
