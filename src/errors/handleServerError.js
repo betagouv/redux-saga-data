@@ -18,6 +18,7 @@ export function* handleServerError(error, config) {
     errors,
     ok: false,
     status: 500,
+    error_type: 'SERVER_ERROR',
   }
   yield put(failData(payload, config))
 
