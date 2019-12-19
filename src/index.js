@@ -19,7 +19,11 @@ import {
   setData,
 } from 'fetch-normalize-data'
 
+import { API_ERROR, SERVER_ERROR } from './error_codes'
+
 export {
+  API_ERROR,
+  SERVER_ERROR,
   ASSIGN_DATA,
   MERGE_DATA,
   REINITIALIZE_DATA,

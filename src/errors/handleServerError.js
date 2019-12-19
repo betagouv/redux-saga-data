@@ -1,5 +1,6 @@
 import { failData } from 'fetch-normalize-data'
 import { call, put, select } from 'redux-saga/effects'
+import { SERVER_ERROR } from '../error_codes'
 
 export const GLOBAL_SERVER_ERROR = 'Server error. Try to to refresh the page.'
 
@@ -18,7 +19,7 @@ export function* handleServerError(error, config) {
     errors,
     ok: false,
     status: 500,
-    error_type: 'SERVER_ERROR',
+    error_type: SERVER_ERROR,
   }
   yield put(failData(payload, config))
 

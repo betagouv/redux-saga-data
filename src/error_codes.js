@@ -1,0 +1,7 @@
+const API_ERROR = 'API_ERROR'
+const SERVER_ERROR = 'SERVER_ERROR'
+
+export {
+    API_ERROR,
+    SERVER_ERROR
+}
